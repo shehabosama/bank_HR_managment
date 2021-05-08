@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace testCSharp
 {
@@ -48,57 +44,39 @@ namespace testCSharp
 
 		static void Main(string[] args)
 		{
-			initDesplay();
+			init();
 		}
 
 		public static void displayEmployerOperation(string nameOfEmployer) {
-			Console.WriteLine("__________________________  Welcome "+nameOfEmployer +" ________________________________");
+			Console.WriteLine("__________________________  Welcome "+nameOfEmployer +" ________________________________\n");
 			Console.WriteLine("1- Add Employee");
 			Console.WriteLine("2- Authentication of Employee payments");
-			Console.WriteLine("3- Exit to main menu");
+			Console.WriteLine("3- Calculate the avarage of payments");
+			Console.WriteLine("4- Calculate  Employees sallary");
+			Console.WriteLine("5- display all Employees information");
+			Console.WriteLine("6- display all Employees information at specific month");
+			Console.WriteLine("7- Exit to main menu");
+
 		}
-		public static void initDesplay() {
+		public static void displayEmployeeOperation()
+		{
+			Console.WriteLine("1- knowing that Authenticatoin is done by manager");
+			Console.WriteLine("2- knowing count of points that obtained it in current year");
+			Console.WriteLine("3- knowing count of points that coworkers obtained it in current year");
+			Console.WriteLine("4- knowing the salary");
+			Console.WriteLine("5- Add payments");
+			Console.WriteLine("6- Exit");
+		}
+		public static void init() {
 			Console.WriteLine("_______________________Welcome______________________\n");
 			Console.WriteLine("Please Select Account Type....... \n");
 			Console.WriteLine("1- Employer");
 			Console.WriteLine("2- Employee");
-			Console.WriteLine("3- Exit");
+			Console.WriteLine("3- Exit to main menu");
 
-			employees2 = new string[3, 5] {  {"1", "rama_x", "123456", "Authanticated","1" }, {"2","mohamed_xx", "98765431", "Authanticated","1"} ,{ "3","salem_4a", "123456", "Authanticated","1" }};
+			employees2 = new string[3, 5] {  {"1", "rama_x", "123456", "Authanticated","1" }, {"2","mohamed_xx", "98765431", "Authanticated","1"} ,
+				{ "3","salem_4a", "123456", "Authanticated","1" }};
 			//Console.WriteLine("New Combos size: {0}", employees2.Length.ToString());
-			//employees2 = Re2Dimension(employees2, employees2.GetLength(0) + 2);
-			//Console.WriteLine("New Combos size: {0}", employees2.Length.ToString());
-
-			employees = new string[3,2,5] { { {"1", "rama_x", "123456", "Authanticated","1" }, {"2","mohamed_xx", "98765431", "Authanticated","1"} },
-								                     { { "3","salem_4a", "123456", "Authanticated","1" }, {"4","roro_4x", "123456", "Authanticated","2"} },
-												   	 { { "5","test_x", "1236547", "Authanticated","2" }, {"6","test_xx", "123654", "Authanticated","2"} },};
-
-			//string[,] array2d = new string[employees.GetLength(0) * employees.GetLength(1), 30];
-
-			/*for (int i = 0; i < array2d.GetLength(0); i++) {
-				for (int j = 0; j < array2d.GetLength(1); j++) {
-					array2d[i, j] = Console.ReadLine();
-				}
-
-
-			}
-			Console.WriteLine("New Combos size: {0}", array2d.Length.ToString());
-
-			Console.WriteLine("Combos size: {0}", array3D.Length.ToString());
-			array3D = ReDimension(array3D,  array3D.GetLength(0)+1);
-			Console.WriteLine("New Combos size: {0}", array3D.Length.ToString());
-			//Console.ReadKey();
-
-
-
-			for (int i = 0; i < employees.GetLength(0); i++) {
-				for (int j = 0; j < employees.GetLength(1); j++) {
-					for (int k = 0; k < employees.GetLength(2); k++) {
-						Console.WriteLine(employees[i,j,k]);
-					}
-				}
-			}*/
-
 
 			accountDetermination(employees2  , inputType());
 		}
@@ -128,17 +106,20 @@ namespace testCSharp
 		public static int inputType() {
 			return Convert.ToInt32(Console.ReadLine());
 		}
+
 		public static string inputUsername()
 		{
 			Console.WriteLine("Please enter username");
 
 			return Console.ReadLine();
 		}
+
 		public static string inputPass()
 		{
 			Console.WriteLine("Please enter password");
 			return Console.ReadLine();
 		}
+
 		public static void employerAccountOperation(int operationType) {
 
 			if (operationType == 1)
@@ -151,7 +132,58 @@ namespace testCSharp
 			}
 			else if (operationType == 3) {
 			
-			}else{
+			}
+			else if (operationType == 4)
+			{
+
+			}
+			else if (operationType == 5)
+			{
+
+			}
+			else if (operationType == 6)
+			{
+
+			}
+			else if (operationType == 7)
+			{
+
+			}
+			else
+			{
+				Console.WriteLine("Invilid number plese try another one....");
+				employerAccountOperation(inputType());
+			}
+		}
+
+		public static void employeeAccountOperation(int operationType)
+		{
+			if (operationType == 1)
+			{
+
+			}
+			else if (operationType == 2)
+			{
+
+			}
+			else if (operationType == 3)
+			{
+
+			}
+			else if (operationType == 4)
+			{
+
+			}
+			else if (operationType == 5)
+			{
+
+			}
+			else if (operationType == 6)
+			{
+
+			}
+			else
+			{
 				Console.WriteLine("Invilid number plese try another one....");
 				employerAccountOperation(inputType());
 			}
@@ -191,43 +223,21 @@ namespace testCSharp
 				}
 			}
 
-			Console.WriteLine("the matrix after addation");
+		}
+
+		public static void displayEmployeeInfo()
+		{
 			for (int i = 0; i < employees2.GetLength(0); i++)
 			{
-			
+
 				for (int j = 0; j < employees2.GetLength(1); j++)
 				{
-					Console.WriteLine(employees2[i,j]);
+					Console.WriteLine(employees2[i, j]);
 
 				}
 			}
-
-
 		}
-
-		public static void displayEmployeeOperation() { 
-		Console.WriteLine("1- Add payment");
-		Console.WriteLine("2- Exit");
-		}
-		public static void employeeAccountOperation(int operationType)
-		{
-			if (operationType == 1)
-			{
-
-			}
-			else if (operationType == 2)
-			{
-
-			}
-			else
-			{
-				Console.WriteLine("Invilid number plese try another one....");
-				employerAccountOperation(inputType());
-			}
-		}
-
 		
-
 		
 		public static void employeeLogin(string[,] array,string id , string pass ,int accountType) {
 			int iterations = 0;
@@ -251,8 +261,6 @@ namespace testCSharp
 						displayEmployeeOperation();
 						employeeAccountOperation(inputType());
 					}
-
-
 
 			}
 			}
