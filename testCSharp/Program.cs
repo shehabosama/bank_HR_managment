@@ -1,10 +1,11 @@
 ﻿using System;
+using System.Linq;
 
 namespace testCSharp
 {
 	class Program
 	{
-		public static string[,,] employees;
+		public static string[,] payments;
 		public static string[,] employees2;
 
 		public static string[,] Re2Dimension(string[,] OldArray, int arr1stDimLength)
@@ -74,8 +75,11 @@ namespace testCSharp
 			Console.WriteLine("2- Employee");
 			Console.WriteLine("3- Exit to main menu");
 
-			employees2 = new string[3, 5] {  {"1", "rama_x", "123456", "Authanticated","1" }, {"2","mohamed_xx", "98765431", "Authanticated","1"} ,
-				{ "3","salem_4a", "123456", "Authanticated","1" }};
+			employees2 = new string[3, 6] {  {"1", "rama_x", "a12345678", "Authanticated","1","123456" }, {"2","mohamed_xx", "b12345678", "Authanticated","1","123456"} ,
+				{ "3","salem_4a", "c12345678", "Authanticated","2","123456" }};
+			payments = new string[5, 3] {  {"1", "rama_x", "10" }, {"1", "rama_x", "20" }, {"1", "rama_x", "40" }, { "2","mohamed_xx", "98765431"} ,
+				{ "3","salem_4a", "123456" }};
+
 			//Console.WriteLine("New Combos size: {0}", employees2.Length.ToString());
 
 			accountDetermination(employees2  , inputType());
@@ -102,6 +106,7 @@ namespace testCSharp
 			}
 
 		}
+
 
 		public static int inputType() {
 			return Convert.ToInt32(Console.ReadLine());
@@ -131,7 +136,7 @@ namespace testCSharp
 
 			}
 			else if (operationType == 3) {
-			
+				getAvarageOfPayments();
 			}
 			else if (operationType == 4)
 			{
@@ -139,7 +144,7 @@ namespace testCSharp
 			}
 			else if (operationType == 5)
 			{
-
+				displayEmployeeInfo();
 			}
 			else if (operationType == 6)
 			{
@@ -176,7 +181,7 @@ namespace testCSharp
 			}
 			else if (operationType == 5)
 			{
-
+				addPayments();
 			}
 			else if (operationType == 6)
 			{
@@ -218,6 +223,17 @@ namespace testCSharp
 						Console.WriteLine("Enter Employee Type");
 
 					}
+					else if (j == 5)
+					{
+						Console.WriteLine("Enter Phone Number");
+
+					}
+					
+					while (!IsValidPassword(Console.ReadLine())) {
+					
+					}
+
+
 					employees2[i, j] = Console.ReadLine();
 
 				}
@@ -225,56 +241,227 @@ namespace testCSharp
 
 		}
 
+
+		public static void addPayments()
+		{
+			Console.WriteLine("How many days you want to add ? ");
+			int daysCount = Convert.ToInt32(Console.ReadLine());
+			
+			payments = Re2Dimension(payments, 3 + daysCount);
+
+			for (int i = 3; i < payments.GetLength(0); i++)
+			{
+				
+				for (int j = 0; j < payments.GetLength(1); j++)
+				{
+					if (j == 0)
+					{
+						Console.WriteLine("Enter your Id");
+					}
+					else if (j == 1)
+					{
+						Console.WriteLine("Enter your username");
+					}
+					else if (j == 2)
+					{
+						Console.WriteLine("Enter payment for day number # "+(i-2));
+					}
+				
+					payments[i, j] = Console.ReadLine();
+
+				}
+			}
+
+		}
+		public static void getAvarageOfPayments() {
+			int iteration = 0;
+			int sum = 0;
+			int result = 0;
+			for (int i = 0; i < employees2.GetLength(0); i++)
+			{
+
+
+				Console.WriteLine("ID : " + employees2[i, 0] + " | " + "Name : " + employees2[i, 1] + " | " +
+					"Phone : " + employees2[i, 5] + " | " + "Auth" + employees2[i, 3] + " | " + "Type : " + employees2[i, 4]);
+
+				for (int j = 0; j < payments.GetLength(0); j++)
+				{
+					if (payments[j, 0].Equals(employees2[i, 0]))
+					{
+						iteration++;
+						sum += Convert.ToInt32(payments[j,2]);
+						
+						Console.WriteLine("payment for day number " + j + " ==> " + payments[j, 2]);
+						
+					}
+					
+				}
+				result = sum / iteration;
+				Console.WriteLine("The Avarge of payments is for " + employees2[i, 1] + " ==> " + result);
+				iteration = 0;
+				sum = 0;
+				result = 0;
+
+				Console.WriteLine();
+
+
+
+			}
+		}
 		public static void displayEmployeeInfo()
 		{
 			for (int i = 0; i < employees2.GetLength(0); i++)
 			{
 
-				for (int j = 0; j < employees2.GetLength(1); j++)
-				{
-					Console.WriteLine(employees2[i, j]);
+			
+					Console.WriteLine("ID : "+ employees2[i, 0]+" | "+"Name : "+ employees2[i,1]+" | "+
+						"Phone : "+employees2[i,5]+" | "+ "Auth" + employees2[i, 3] +" | "+"Type : "+employees2[i,4]);
 
+				for (int j = 0; j < payments.GetLength(0); j++) {
+					if (payments[j, 0].Equals(employees2[i, 0]))
+					{
+						Console.WriteLine("payment for day number " + j + " ==> " + payments[j, 2]);
+					}
 				}
+
+				Console.WriteLine();
+
+
+
 			}
 		}
 		
 		
 		public static void employeeLogin(string[,] array,string id , string pass ,int accountType) {
 			int iterations = 0;
-			for (int i = 0; i < array.GetLength(0); i++)
+			if (IsValidPassword(pass))
 			{
-				
-					Console.WriteLine(" \n");
-				
-				if (array[i,  1].Equals(id) && array[i, 2].Equals(pass))
+				for (int i = 0; i < array.GetLength(0); i++)
 				{
-					if (accountType == 1)
+
+					Console.WriteLine(" \n");
+
+					if (array[i, 1].Equals(id) && array[i, 2].Equals(pass))
 					{
-						iterations++;
-						displayEmployerOperation(array[i,1]);
-						employerAccountOperation(inputType());
-						goto LoopEnd;
-						//Console.WriteLine(array[i, j, 1] + "  " + array[i, j, 1]);
-					}
-					else if (accountType == 2) {
-						iterations++;
-						displayEmployeeOperation();
-						employeeAccountOperation(inputType());
-					}
+						if (accountType == 1)
+						{
+							if (!array[i, 4].Equals("2"))
+							{
+								iterations++;
+								displayEmployerOperation(array[i, 1]);
+								employerAccountOperation(inputType());
+								goto LoopEnd;
+							}
+							else
+							{
+								Console.WriteLine("This account is an Employee Account please select correct account type\n");
+								Console.WriteLine("Please Select Account Type....... \n");
+								accountDetermination(employees2, inputType());
+							}
 
-			}
-			}
-		LoopEnd:
-			Console.WriteLine("");
+							//Console.WriteLine(array[i, j, 1] + "  " + array[i, j, 1]);
+						}
+						else if (accountType == 2)
+						{
+							if (!array[i, 4].Equals("1"))
+							{
+								iterations++;
+								displayEmployeeOperation();
+								employeeAccountOperation(inputType());
+							}
+							else
+							{
+								Console.WriteLine("This account is an Employer Account please select correct account type\n");
+								Console.WriteLine("Please Select Account Type....... \n");
+								accountDetermination(employees2, inputType());
+							}
 
-			if (iterations < 1)
-			{
-				Console.WriteLine("Invilid user name or password ....");
+						}
+
+					}
+				}
+			LoopEnd:
+				Console.WriteLine("");
+
+				if (iterations < 1)
+				{
+					Console.WriteLine("Invilid user name or password ....\n");
+					Console.WriteLine("Please try another user name or password ....");
+					employeeLogin(array, inputUsername(), inputPass(), accountType);
+
+				}
 			}
-			
+			else {
+				Console.WriteLine("The password does not fulfill the conditions ....");
+				Console.WriteLine("Please try another user name or password ....");
+				employeeLogin(array, inputUsername(), inputPass(), accountType);
+			}	
 			
 		}
 
+
+
+		static bool IsLetter(char c)
+		{
+			return (c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z');
+		}
+
+		static bool IsDigit(char c)
+		{
+			return c >= '0' && c <= '9';
+		}
+
+		static bool IsSymbol(char c)
+		{
+			return c > 32 && c < 127 && !IsDigit(c) && !IsLetter(c);
+		}
+		static bool IsFirstIndexIsCharacter(string pass)
+		{
+			 pass.Substring(0, 1);
+			if (pass.Substring(0, 1).Equals("a") || pass.Substring(0, 1).Equals("b") ||
+				pass.Substring(0, 1).Equals("c") || pass.Substring(0, 1).Equals("d") ||
+				pass.Substring(0, 1).Equals("e") || pass.Substring(0, 1).Equals("f") ||
+				pass.Substring(0, 1).Equals("g") || pass.Substring(0, 1).Equals("h") ||
+				pass.Substring(0, 1).Equals("i") || pass.Substring(0, 1).Equals("j") ||
+				pass.Substring(0, 1).Equals("k") || pass.Substring(0, 1).Equals("l") ||
+				pass.Substring(0, 1).Equals("m") || pass.Substring(0, 1).Equals("n") ||
+				pass.Substring(0, 1).Equals("o") || pass.Substring(0, 1).Equals("p") ||
+				pass.Substring(0, 1).Equals("q") || pass.Substring(0, 1).Equals("r") ||
+				pass.Substring(0, 1).Equals("s") || pass.Substring(0, 1).Equals("t") ||
+				pass.Substring(0, 1).Equals("u") || pass.Substring(0, 1).Equals("v") ||
+				pass.Substring(0, 1).Equals("w") || pass.Substring(0, 1).Equals("x") ||
+				pass.Substring(0, 1).Equals("y") || pass.Substring(0, 1).Equals("z") ||
+				pass.Substring(0, 1).Equals("A") || pass.Substring(0, 1).Equals("B") ||
+				pass.Substring(0, 1).Equals("c") || pass.Substring(0, 1).Equals("D") ||
+				pass.Substring(0, 1).Equals("E") || pass.Substring(0, 1).Equals("F") ||
+				pass.Substring(0, 1).Equals("G") || pass.Substring(0, 1).Equals("H") ||
+				pass.Substring(0, 1).Equals("I") || pass.Substring(0, 1).Equals("J") ||
+				pass.Substring(0, 1).Equals("K") || pass.Substring(0, 1).Equals("L") ||
+				pass.Substring(0, 1).Equals("M") || pass.Substring(0, 1).Equals("N") ||
+				pass.Substring(0, 1).Equals("O") || pass.Substring(0, 1).Equals("P") ||
+				pass.Substring(0, 1).Equals("Q") || pass.Substring(0, 1).Equals("R") ||
+				pass.Substring(0, 1).Equals("S") || pass.Substring(0, 1).Equals("T") ||
+				pass.Substring(0, 1).Equals("U") || pass.Substring(0, 1).Equals("V") ||
+				pass.Substring(0, 1).Equals("W") || pass.Substring(0, 1).Equals("X") ||
+				pass.Substring(0, 1).Equals("Y") || pass.Substring(0, 1).Equals("Z"))
+			{
+				return true;
+			}
+			else {
+				return false;
+			}
+			
+		}
+
+		static bool IsValidPassword(string password)
+		{
+			return
+			   password.Any(c => IsLetter(c)) &&
+			   password.Any(c => IsDigit(c)) &&
+			  // password.Any(c => IsSymbol(c))&&
+			   password.Length >= 8&&
+			   IsFirstIndexIsCharacter(password);
+		}
 
 	}
 }
