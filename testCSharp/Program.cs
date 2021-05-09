@@ -74,11 +74,17 @@ namespace testCSharp
 			Console.WriteLine("1- Employer");
 			Console.WriteLine("2- Employee");
 			Console.WriteLine("3- Exit to main menu");
+			                                 //id|  name    |  password |  comnfirmation | emp t | phone|   interval | category | points | salary
+			employees2 = new string[3, 10] {  {"1", "rama_x", "a12345678", "Authanticated"  ,"1"," 012345610" ,"5"       ,"A",     "80"  , "10000"}, 
+				                             {"2","mohamed_xx","b12345678","Authanticated" ,"1", "012345678" ,"5"       ,"b",     "100", "10000"} ,
+				                             {"3","salem_4a", "c12345678", "Authanticated" ,"2", "010023456" ,"2"       ,"c",     "80", "10000"}};
 
-			employees2 = new string[3, 6] {  {"1", "rama_x", "a12345678", "Authanticated","1","123456" }, {"2","mohamed_xx", "b12345678", "Authanticated","1","123456"} ,
-				{ "3","salem_4a", "c12345678", "Authanticated","2","123456" }};
-			payments = new string[5, 3] {  {"1", "rama_x", "10" }, {"1", "rama_x", "20" }, {"1", "rama_x", "40" }, { "2","mohamed_xx", "98765431"} ,
-				{ "3","salem_4a", "123456" }};
+										   //id | name   | payments
+			payments = new string[5, 3] {  {"1", "rama_x", "10" },
+										   {"1", "rama_x", "20" },
+										   {"1", "rama_x", "40" },
+										   { "2","mohamed_xx", "98765431"} ,
+										   { "3","salem_4a", "123456" }};
 
 			//Console.WriteLine("New Combos size: {0}", employees2.Length.ToString());
 
@@ -196,6 +202,8 @@ namespace testCSharp
 
 		public static void addEmployee()
 		{
+			string pass = "";
+			bool check = true;
 			Console.WriteLine("How many employee you want to add ? ");
 			int employee_size = Convert.ToInt32(Console.ReadLine());
 			Console.WriteLine(employees2.GetLength(1));
@@ -213,7 +221,34 @@ namespace testCSharp
 					}
 					else if (j == 2)
 					{
+
 						Console.WriteLine("Enter Employee password");
+
+						pass = Console.ReadLine();
+						if (IsValidPassword(pass))
+						{
+							check = false;
+						}
+						else {
+							Console.WriteLine("this password is invalid");
+							check = true;
+						}
+
+						while (check) {
+							
+							pass = Console.ReadLine();
+							if (IsValidPassword(pass))
+							{
+								
+								check = false;
+							}
+							else
+							{
+								Console.WriteLine("this password is invalid");
+								check = true;
+							}
+						}
+
 					}
 					else if (j == 3)
 					{
@@ -226,15 +261,27 @@ namespace testCSharp
 					else if (j == 5)
 					{
 						Console.WriteLine("Enter Phone Number");
-
 					}
-					
-					while (!IsValidPassword(Console.ReadLine())) {
-					
+					else if (j == 6)
+					{
+						Console.WriteLine("Enter Interval");
+					}
+					else if (j == 7)
+					{
+						Console.WriteLine("Enter Category");
+					}
+					else if (j == 8)
+					{
+						Console.WriteLine("Enter number of points");
 					}
 
-
+					if (j == 2)
+					{
+						employees2[i, j] = pass;
+					}
+					else { 
 					employees2[i, j] = Console.ReadLine();
+					}
 
 				}
 			}
@@ -273,6 +320,13 @@ namespace testCSharp
 			}
 
 		}
+
+
+		public static void calculateAnnualBonus() { 
+		
+
+		}
+
 		public static void getAvarageOfPayments() {
 			int iteration = 0;
 			int sum = 0;
@@ -281,8 +335,15 @@ namespace testCSharp
 			{
 
 
-				Console.WriteLine("ID : " + employees2[i, 0] + " | " + "Name : " + employees2[i, 1] + " | " +
-					"Phone : " + employees2[i, 5] + " | " + "Auth" + employees2[i, 3] + " | " + "Type : " + employees2[i, 4]);
+				Console.WriteLine("ID : " + employees2[i, 0] +
+					" | " + "Name : " + employees2[i, 1] +
+					" | " +"Phone : " + employees2[i, 5] + 
+					" | " + "Auth" + employees2[i, 3] +
+					" | " + "Type : " + employees2[i, 4] +
+					" | "+ "Employee Interval : "+ employees2[i,6]+
+					" | "+ "Category : "+ employees2[i,7]+
+					" | "+ "Points : "+ employees2[i,8]+
+					" | "+ "Salary"+ employees2[i,9]);
 
 				for (int j = 0; j < payments.GetLength(0); j++)
 				{
@@ -315,7 +376,9 @@ namespace testCSharp
 
 			
 					Console.WriteLine("ID : "+ employees2[i, 0]+" | "+"Name : "+ employees2[i,1]+" | "+
-						"Phone : "+employees2[i,5]+" | "+ "Auth" + employees2[i, 3] +" | "+"Type : "+employees2[i,4]);
+						"Phone : "+employees2[i,5]+" | "+ "Auth" + employees2[i, 3] +" | "+"Type : "+employees2[i,4]+"\n"
+						+"Category : "+employees2[1,7] +" | "+ " Interval : "+ employees2[i,6] +" | "+
+						"count of points : "+employees2[i,8]);
 
 				for (int j = 0; j < payments.GetLength(0); j++) {
 					if (payments[j, 0].Equals(employees2[i, 0]))
