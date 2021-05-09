@@ -7,6 +7,7 @@ namespace testCSharp
 	{
 		public static string[,] payments;
 		public static string[,] employees2;
+		public static string username="";
 
 		public static string[,] Re2Dimension(string[,] OldArray, int arr1stDimLength)
 		{
@@ -76,14 +77,14 @@ namespace testCSharp
 				                             {"2","mohamed_xx","b12345678","Authanticated" ,"1", "012345678" ,"5"       ,"B",     "100", "10000"} ,
 				                             {"3","salem_4a", "c12345678", "Authanticated" ,"2", "010023456" ,"2"       ,"c",     "80", "10000"}};
 
-										   //id | name   | payments
-			payments = new string[7, 3] {  {"1", "rama_x", "10" },
-										   {"1", "rama_x", "20" },
-										   {"1", "rama_x", "40" },
-										   { "2","mohamed_xx", "10"},
-										   { "2","mohamed_xx", "10"},
-										   { "3","salem_4a", "30" },
-										   { "3","salem_4a", "30" }};
+										   //id | name   | payments | confirmation |requ |i
+			payments = new string[7, 6] {  {"1", "rama_x", "10"     ,"Y"           ,"0" ,"1"},
+										   {"1", "rama_x", "20"     ,"N"           ,"0" ,"1"},
+										   {"1", "rama_x", "40"     ,"Y"           ,"1" ,"1"},
+										   { "2","mohamed_xx", "10" ,"Y"           ,"1" ,"1"},
+										   { "2","mohamed_xx", "10" ,"N"           ,"1" ,"1"},
+										   { "3","salem_4a", "30"   ,"N"           ,"0" ,"1"},
+										   { "3","salem_4a", "30"   ,"N"           ,"0" ,"1"}};
 
 			//Console.WriteLine("New Combos size: {0}", employees2.Length.ToString());
 
@@ -120,7 +121,6 @@ namespace testCSharp
 
 		}
 
-
 		public static int inputType() {
 			return Convert.ToInt32(Console.ReadLine());
 		}
@@ -146,10 +146,10 @@ namespace testCSharp
 			}
 			else if (operationType == 2)
 			{
-
+				AuthenticatePayment();
 			}
 			else if (operationType == 3) {
-				getAvarageOfPayments();
+				calculateAvarageOfPayments();
 			}
 			else if (operationType == 4)
 			{
@@ -161,11 +161,7 @@ namespace testCSharp
 			}
 			else if (operationType == 6)
 			{
-				displayEmployeeInfo();
-			}
-			else if (operationType == 7)
-			{
-
+				displayEmployeesInfo();
 			}
 			else if (operationType == 8)
 			{
@@ -182,34 +178,41 @@ namespace testCSharp
 		public static void employeeAccountOperation(int operationType)
 		{
 			if (operationType == 1)
-			{
 
+			{
+				Console.WriteLine("please Enter the payment number");
+				displayAuthenticationStutus(username , Console.ReadLine());
 			}
 			else if (operationType == 2)
 			{
-
+				displayYourPointsInfo(username);
 			}
 			else if (operationType == 3)
 			{
-
+				displayCoworkerPointsInfo();
 			}
 			else if (operationType == 4)
 			{
-
+				calculateTotalSalaryOfTheMonth();
 			}
 			else if (operationType == 5)
 			{
 				addPayments();
 			}
-			else if (operationType == 6)
-			{
-
-			}
 			else
 			{
 				Console.WriteLine("Invilid number plese try another one....");
-				employerAccountOperation(inputType());
+				employeeAccountOperation(inputType());
 			}
+		}
+
+		public static void AuthenticatePayment() {
+			displayPaymentsStutus();
+			Console.WriteLine("Please Select which of payment you want to Authenticate .....");
+			string numberOfPayment = Console.ReadLine();
+
+
+
 		}
 
 		public static void addEmployee()
@@ -335,7 +338,15 @@ namespace testCSharp
 					{
 						Console.WriteLine("Enter payment for day number # "+(i-2));
 					}
-				
+					else if (j == 4)
+					{
+						Console.WriteLine("Do you want to request this payment?  ");
+						Console.WriteLine();
+						Console.WriteLine("1- Yes");
+						Console.WriteLine("2- No");
+
+					}
+
 					payments[i, j] = Console.ReadLine();
 
 				}
@@ -420,11 +431,12 @@ namespace testCSharp
 				
 			}
 
-			displayEmployeeInfo();
+			displayEmployeesInfo();
 
 		}
 
-		public static void getAvarageOfPayments() {
+
+		public static void calculateAvarageOfPayments() {
 			spreateLine();
 			int iteration = 0;
 			int sum = 0;
@@ -462,11 +474,102 @@ namespace testCSharp
 				result = 0;
 				spreateLine();
 
+			}
+		}
+		public static void displayYourPointsInfo(string username)
+		{
+			spreateLine();
+			for (int i = 0; i < employees2.GetLength(0); i++)
+			{
+
+				if (employees2[i, 1].Equals(username)) {
+					Console.WriteLine("ID : " + employees2[i, 0] +
+						" | " + "Name : " + employees2[i, 1] +	
+						" | Category : " + employees2[i, 7] +
+						" | " + "Points : " + employees2[i, 8] 
+						);
+
+					for (int j = 0; j < payments.GetLength(0); j++)
+					{
+						if (payments[j, 0].Equals(employees2[i, 0]))
+						{
+							Console.WriteLine("payment for day number " + j + " ==> " + payments[j, 2]);
+						}
+					}
+				}
+
+				
+				spreateLine();
+
+			}
+		}
+		public static void displayCoworkerPointsInfo()
+		{
+			spreateLine();
+			for (int i = 0; i < employees2.GetLength(0); i++)
+			{
+
+					Console.WriteLine("ID : " + employees2[i, 0] +
+						" | " + "Name : " + employees2[i, 1] +
+						" | Category : " + employees2[i, 7] +
+						" | " + "Points : " + employees2[i, 8]
+						);
+
+					for (int j = 0; j < payments.GetLength(0); j++)
+					{
+						if (payments[j, 0].Equals(employees2[i, 0]))
+						{
+							Console.WriteLine("payment for day number " + j + " ==> " + payments[j, 2]);
+						}
+					}
+				}
+
+				spreateLine();
+
+		}
+
+		public static void displayPaymentsStutus() {
+			for (int i = 0; i < employees2.GetLength(0); i++)
+			{
+				Console.WriteLine("ID : " + employees2[i, 0] +
+						" | " + "Name : " + employees2[i, 1] +
+						" | " + "Phone : " + employees2[i, 5] +
+					    " | Category : " + employees2[i, 7] 
+						);
+				for (int j = 0; j < payments.GetLength(0); j++)
+				{
+
+					if (payments[j, 0].Equals(employees2[i, 0]))
+					{
+						string rquestStutus = payments[j, 4].Equals("0") ? "Without Request" : "Request is done";
+						Console.WriteLine("payment number : " + (j + 1) + " : " + payments[j, 2] + " | Confirmation : " +
+							payments[j, 3] + " request stutus :  " + rquestStutus);
+					}
+
+
+				}
+				spreateLine();
+			}
+		}
+		public static void displayAuthenticationStutus(string username ,string paymentNumber)
+		{
+			spreateLine();
+		
+			Console.WriteLine("Hello mr/ms" + username + "your payments are : ");
+			for (int j = 0; j < payments.GetLength(0); j++)
+			{
+
+				if (payments[j, 1].Equals(username) && payments[j,5].Equals(paymentNumber))
+				{
+					string rquestStutus = payments[j, 4].Equals("0") ? "Without Request" : "Request is done";
+					Console.WriteLine("payment number : " + (j + 1) + " : " + payments[j, 2] + " | Confirmation : " +
+						payments[j, 3] + " request stutus :  " + rquestStutus);
+				}
 
 
 			}
 		}
-		public static void displayEmployeeInfo()
+		public static void displayEmployeesInfo()
 		{
 			spreateLine();
 			for (int i = 0; i < employees2.GetLength(0); i++)
@@ -494,7 +597,6 @@ namespace testCSharp
 			}
 		}
 		
-		
 		public static void employeeLogin(string[,] array,string id , string pass ,int accountType) {
 			
 			int iterations = 0;
@@ -512,6 +614,7 @@ namespace testCSharp
 							if (!array[i, 4].Equals("2"))
 							{
 								iterations++;
+								username = id;
 								displayEmployerOperation(array[i, 1]);
 								employerAccountOperation(inputType());
 								goto LoopEnd;
@@ -529,6 +632,7 @@ namespace testCSharp
 						{
 							if (!array[i, 4].Equals("1"))
 							{
+								username = id;
 								iterations++;
 								displayEmployeeOperation();
 								employeeAccountOperation(inputType());
@@ -563,8 +667,6 @@ namespace testCSharp
 			
 		}
 
-
-
 		static bool IsLetter(char c)
 		{
 			return (c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z');
@@ -579,6 +681,7 @@ namespace testCSharp
 		{
 			return c > 32 && c < 127 && !IsDigit(c) && !IsLetter(c);
 		}
+
 		static bool IsFirstIndexIsCharacter(string pass)
 		{
 			 pass.Substring(0, 1);
