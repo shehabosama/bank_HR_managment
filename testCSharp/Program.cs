@@ -16,10 +16,9 @@ namespace testCSharp
 			// determine if we are shrinking or enlarging
 			const int FirstDimension = 0;
 			const int SecondDimension = 1;
-			const int ThirdDimension = 2;
 			int xMax = 0;
 			int yMax = 0;
-			int zMax = 0;
+			
 			yMax = OldArray.GetUpperBound(SecondDimension) + 1;
 			
 			// determine if we are shrinking or enlarging columns
@@ -54,9 +53,10 @@ namespace testCSharp
 			Console.WriteLine("2- Authentication of Employee payments");
 			Console.WriteLine("3- Calculate the avarage of payments");
 			Console.WriteLine("4- Calculate  Employees sallary");
-			Console.WriteLine("5- display all Employees information");
-			Console.WriteLine("6- display all Employees information at specific month");
-			Console.WriteLine("7- Exit to main menu");
+			Console.WriteLine("5- Calculate annual bonus");
+			Console.WriteLine("6- display all Employees information");
+			Console.WriteLine("7- display all Employees information at specific month");
+			Console.WriteLine("8- Exit to main menu");
 
 		}
 		public static void displayEmployeeOperation()
@@ -69,26 +69,33 @@ namespace testCSharp
 			Console.WriteLine("6- Exit");
 		}
 		public static void init() {
+			homeForm();
+			
+			                                 //id|  name    |  password |  comnfirmation | emp t | phone|   interval | category | points | salary
+			employees2 = new string[3, 10] {  {"1", "rama_x", "a12345678", "Authanticated"  ,"1"," 012345610" ,"5"       ,"A",     "80"  , "10000"}, 
+				                             {"2","mohamed_xx","b12345678","Authanticated" ,"1", "012345678" ,"5"       ,"B",     "100", "10000"} ,
+				                             {"3","salem_4a", "c12345678", "Authanticated" ,"2", "010023456" ,"2"       ,"c",     "80", "10000"}};
+
+										   //id | name   | payments
+			payments = new string[7, 3] {  {"1", "rama_x", "10" },
+										   {"1", "rama_x", "20" },
+										   {"1", "rama_x", "40" },
+										   { "2","mohamed_xx", "10"},
+										   { "2","mohamed_xx", "10"},
+										   { "3","salem_4a", "30" },
+										   { "3","salem_4a", "30" }};
+
+			//Console.WriteLine("New Combos size: {0}", employees2.Length.ToString());
+
+			accountDetermination(employees2  , inputType());
+		}
+		public static void homeForm() {
+			Console.ForegroundColor = ConsoleColor.Green;
 			Console.WriteLine("_______________________Welcome______________________\n");
 			Console.WriteLine("Please Select Account Type....... \n");
 			Console.WriteLine("1- Employer");
 			Console.WriteLine("2- Employee");
 			Console.WriteLine("3- Exit to main menu");
-			                                 //id|  name    |  password |  comnfirmation | emp t | phone|   interval | category | points | salary
-			employees2 = new string[3, 10] {  {"1", "rama_x", "a12345678", "Authanticated"  ,"1"," 012345610" ,"5"       ,"A",     "80"  , "10000"}, 
-				                             {"2","mohamed_xx","b12345678","Authanticated" ,"1", "012345678" ,"5"       ,"b",     "100", "10000"} ,
-				                             {"3","salem_4a", "c12345678", "Authanticated" ,"2", "010023456" ,"2"       ,"c",     "80", "10000"}};
-
-										   //id | name   | payments
-			payments = new string[5, 3] {  {"1", "rama_x", "10" },
-										   {"1", "rama_x", "20" },
-										   {"1", "rama_x", "40" },
-										   { "2","mohamed_xx", "98765431"} ,
-										   { "3","salem_4a", "123456" }};
-
-			//Console.WriteLine("New Combos size: {0}", employees2.Length.ToString());
-
-			accountDetermination(employees2  , inputType());
 		}
 
 		public static void accountDetermination(string[,] array  , int accountType) {
@@ -146,19 +153,24 @@ namespace testCSharp
 			}
 			else if (operationType == 4)
 			{
-
+				calculateTotalSalaryOfTheMonth();
 			}
 			else if (operationType == 5)
 			{
-				displayEmployeeInfo();
+				calculateAnnualBonus();
 			}
 			else if (operationType == 6)
 			{
-
+				displayEmployeeInfo();
 			}
 			else if (operationType == 7)
 			{
 
+			}
+			else if (operationType == 8)
+			{
+				homeForm();
+				accountDetermination(employees2, inputType());
 			}
 			else
 			{
@@ -166,7 +178,7 @@ namespace testCSharp
 				employerAccountOperation(inputType());
 			}
 		}
-
+		
 		public static void employeeAccountOperation(int operationType)
 		{
 			if (operationType == 1)
@@ -202,6 +214,7 @@ namespace testCSharp
 
 		public static void addEmployee()
 		{
+			
 			string pass = "";
 			bool check = true;
 			Console.WriteLine("How many employee you want to add ? ");
@@ -274,6 +287,10 @@ namespace testCSharp
 					{
 						Console.WriteLine("Enter number of points");
 					}
+					else if (j == 9)
+					{
+						Console.WriteLine("Enter Employee Salary");
+					}
 
 					if (j == 2)
 					{
@@ -288,9 +305,14 @@ namespace testCSharp
 
 		}
 
-
+		public static void spreateLine() {
+			Console.WriteLine();
+			Console.WriteLine("--------------------------------------------------------------");
+			Console.WriteLine();
+		}
 		public static void addPayments()
 		{
+			spreateLine();
 			Console.WriteLine("How many days you want to add ? ");
 			int daysCount = Convert.ToInt32(Console.ReadLine());
 			
@@ -321,13 +343,89 @@ namespace testCSharp
 
 		}
 
+		public static void calculateTotalSalaryOfTheMonth() {
+			spreateLine();
+			int iteration = 0;
+			int sum = 0;
+			int result = 0;
+			for (int i = 0; i < employees2.GetLength(0); i++)
+			{
 
-		public static void calculateAnnualBonus() { 
-		
+
+				Console.WriteLine("ID : " + employees2[i, 0] +
+					" | " + "Name : " + employees2[i, 1] +
+					" | " + "Phone : " + employees2[i, 5] +
+					" | " + "Auth" + employees2[i, 3] +
+					" | " + "Type : " + employees2[i, 4] +
+					" | " + "Employee Interval : " + employees2[i, 6] +
+					" | " + "Category : " + employees2[i, 7] +
+					" | " + "Points : " + employees2[i, 8] +
+					" | " + "Salary" + employees2[i, 9]);
+
+				for (int j = 0; j < payments.GetLength(0); j++)
+				{
+					if (payments[j, 0].Equals(employees2[i, 0]))
+					{
+						iteration++;
+						sum += Convert.ToInt32(payments[j, 2]);
+
+						Console.WriteLine("payment for day number " + j + " ==> " + payments[j, 2]);
+
+					}
+
+				}
+				result = sum / iteration;
+				Console.WriteLine("The Avarge of payments is for " + employees2[i, 1] + " ==> " + result);
+				Console.WriteLine("The Salary of Employee : " + employees2[i, 1] + " ==> "+ (( Convert.ToInt32( employees2[i,9]) * 30))+result );
+				iteration = 0;
+				sum = 0;
+				result = 0;
+				
+
+
+
+			}
+
+		}
+		public static void calculateAnnualBonus() {
+			spreateLine();
+			double newSalary = 0;
+			for (int i = 0; i < employees2.GetLength(0); i++)
+			{
+				if (!employees2[i, 7].Equals("A") && Convert.ToInt32(employees2[i, 6])>3)
+				{
+					if (Convert.ToInt32(employees2[i, 8]) >= 80)
+					{
+						newSalary = Convert.ToDouble(employees2[i, 8] + (2 * Convert.ToDouble(employees2[i, 8]) ));
+						employees2[i, 9] = Convert.ToString(newSalary);
+					}
+					else if (Convert.ToInt32(employees2[i, 8]) >= 65 && Convert.ToInt32(employees2[i, 8]) <= 79)
+					{
+						newSalary = Convert.ToDouble(employees2[i, 8]+(1.5 * Convert.ToDouble(employees2[i, 8]) ));
+						employees2[i, 9] = Convert.ToString(newSalary);
+					}
+					else if (Convert.ToInt32(employees2[i, 8]) >= 50 && Convert.ToInt32(employees2[i, 8]) <= 64)
+					{
+						newSalary = Convert.ToInt32(employees2[i, 8] + (2 * Convert.ToDouble(employees2[i, 8]) ));
+						employees2[i, 9] = Convert.ToString(newSalary);
+					}
+					else if (Convert.ToInt32(employees2[i, 8]) <= 50) { 
+					
+					}
+				}
+				else { 
+				
+				}
+				newSalary = 0;
+				
+			}
+
+			displayEmployeeInfo();
 
 		}
 
 		public static void getAvarageOfPayments() {
+			spreateLine();
 			int iteration = 0;
 			int sum = 0;
 			int result = 0;
@@ -362,8 +460,7 @@ namespace testCSharp
 				iteration = 0;
 				sum = 0;
 				result = 0;
-
-				Console.WriteLine();
+				spreateLine();
 
 
 
@@ -371,14 +468,20 @@ namespace testCSharp
 		}
 		public static void displayEmployeeInfo()
 		{
+			spreateLine();
 			for (int i = 0; i < employees2.GetLength(0); i++)
 			{
 
 			
-					Console.WriteLine("ID : "+ employees2[i, 0]+" | "+"Name : "+ employees2[i,1]+" | "+
-						"Phone : "+employees2[i,5]+" | "+ "Auth" + employees2[i, 3] +" | "+"Type : "+employees2[i,4]+"\n"
-						+"Category : "+employees2[1,7] +" | "+ " Interval : "+ employees2[i,6] +" | "+
-						"count of points : "+employees2[i,8]);
+					Console.WriteLine("ID : "+ employees2[i, 0]+
+						" | "+"Name : "+ employees2[i,1]+
+						" | "+"Phone : "+employees2[i,5]+
+						" | "+"Auth : " + employees2[i, 3] +
+						" | "+"Type : "+employees2[i,4]+"\n"
+						+"Category : "+employees2[i,7] +
+						" | "+ "Interval : "+ employees2[i,6] +
+						" | "+"Points : "+employees2[i,8]+
+						" | " + "Salary : " + employees2[i, 9]);
 
 				for (int j = 0; j < payments.GetLength(0); j++) {
 					if (payments[j, 0].Equals(employees2[i, 0]))
@@ -386,16 +489,14 @@ namespace testCSharp
 						Console.WriteLine("payment for day number " + j + " ==> " + payments[j, 2]);
 					}
 				}
-
-				Console.WriteLine();
-
-
+				spreateLine();
 
 			}
 		}
 		
 		
 		public static void employeeLogin(string[,] array,string id , string pass ,int accountType) {
+			
 			int iterations = 0;
 			if (IsValidPassword(pass))
 			{
