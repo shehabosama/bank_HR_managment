@@ -8,7 +8,7 @@ namespace testCSharp
 		public static string[,] payments;
 		public static string[,] employees2;
 		public static string username="";
-
+		
 		public static string[,] Re2Dimension(string[,] OldArray, int arr1stDimLength)
 		{
 			// declare a larger array
@@ -49,7 +49,7 @@ namespace testCSharp
 		}
 
 		public static void displayEmployerOperation(string nameOfEmployer) {
-			Console.WriteLine("__________________________  Welcome "+nameOfEmployer +" ________________________________\n");
+			Console.WriteLine("__________________________  Welcome "+ nameOfEmployer +" ________________________________\n");
 			Console.WriteLine("1- Add Employee");
 			Console.WriteLine("2- Authentication of Employee payments");
 			Console.WriteLine("3- Calculate the avarage of payments");
@@ -77,7 +77,7 @@ namespace testCSharp
 				                             {"3","salem_4a", "c12345678", "Authanticated" ,"2", "010023456" ,"2"       ,"c",     "80", "10000"}};
 
 										   //id | name   | payments | confirmation |requ |i
-			payments = new string[7, 6] {  {"1", "rama_x", "10"     ,"Y"           ,"0" ,"1"},
+			payments = new string[7, 6] {  {"1", "rama_x", "10"     ,"N"           ,"1" ,"1"},
 										   {"1", "rama_x", "20"     ,"N"           ,"0" ,"2"},
 										   {"1", "rama_x", "40"     ,"Y"           ,"1" ,"3"},
 										   { "2","mohamed_xx", "10" ,"Y"           ,"1" ,"4"},
@@ -180,7 +180,7 @@ namespace testCSharp
 
 			{
 				Console.WriteLine("please Enter the payment number");
-				displayAuthenticationStutus(username , Console.ReadLine());
+				displayAuthenticationStutus(username, Console.ReadLine());
 			}
 			else if (operationType == 2)
 			{
@@ -197,6 +197,10 @@ namespace testCSharp
 			else if (operationType == 5)
 			{
 				addPayments();
+			}
+			else if (operationType == 6) {
+				homeForm();
+				accountDetermination(employees2 , inputType());
 			}
 			else
 			{
@@ -239,7 +243,7 @@ namespace testCSharp
 
 			for (int i = 3; i < employees2.GetLength(0); i++)
 			{
-				Console.WriteLine("Enter the Employee number : " + (i-3));
+				Console.WriteLine("Enter the Employee number : " + (i-2));
 				for (int j = 0; j < employees2.GetLength(1); j++)
 				{
 					if (j == 0) {
@@ -429,12 +433,19 @@ namespace testCSharp
 					}
 
 				}
-				result = sum / iteration;
-				Console.WriteLine("The Avarge of payments is for " + employees2[i, 1] + " ==> " + result);
-				Console.WriteLine("The Salary of Employee : " + employees2[i, 1] + " ==> " + ((Convert.ToInt32(employees2[i, 9]) * 30)) + result);
-				iteration = 0;
-				sum = 0;
-				result = 0;
+				if (iteration == 0)
+				{
+					Console.WriteLine("This Employee dose not have Payments");
+				}
+				else
+				{
+					result = sum / iteration;
+					Console.WriteLine("The Avarge of payments is for " + employees2[i, 1] + " ==> " + result);
+					Console.WriteLine("The Salary of Employee : " + employees2[i, 1] + " ==> " + ((Convert.ToInt32(employees2[i, 9]) * 30)) + result);
+					iteration = 0;
+					sum = 0;
+					result = 0;
+				}
 
 
 				spreateLine();
@@ -474,13 +485,19 @@ namespace testCSharp
 					}
 
 				}
-				result = sum / iteration;
-				Console.WriteLine("The Avarge of payments is for " + employees2[i, 1] + " ==> " + result);
-				Console.WriteLine("The Salary of Employee : " + employees2[i, 1] + " ==> "+ (( Convert.ToInt32( employees2[i,9]) * 30))+result );
-				iteration = 0;
-				sum = 0;
-				result = 0;
-
+				if (iteration == 0)
+				{
+					Console.WriteLine("This Employee dose not have Payments");
+				}
+				else
+				{
+					result = sum / iteration;
+					Console.WriteLine("The Avarge of payments is for " + employees2[i, 1] + " ==> " + result);
+					Console.WriteLine("The Salary of Employee : " + employees2[i, 1] + " ==> " + ((Convert.ToInt32(employees2[i, 9]) * 30)) + result);
+					iteration = 0;
+					sum = 0;
+					result = 0;
+				}
 
 				spreateLine();
 
@@ -507,7 +524,7 @@ namespace testCSharp
 					}
 					else if (Convert.ToInt32(employees2[i, 8]) >= 50 && Convert.ToInt32(employees2[i, 8]) <= 64)
 					{
-						newSalary = Convert.ToInt32(employees2[i, 8] + (2 * Convert.ToDouble(employees2[i, 8]) ));
+						newSalary = Convert.ToInt32(employees2[i, 8] + (1 * Convert.ToDouble(employees2[i, 8]) ));
 						employees2[i, 9] = Convert.ToString(newSalary);
 					}
 					else if (Convert.ToInt32(employees2[i, 8]) <= 50) { 
@@ -558,11 +575,18 @@ namespace testCSharp
 					}
 					
 				}
-				result = sum / iteration;
-				Console.WriteLine("The Avarge of payments is for " + employees2[i, 1] + " ==> " + result);
-				iteration = 0;
-				sum = 0;
-				result = 0;
+				if (iteration == 0)
+				{
+					Console.WriteLine("This Employee dose not have Payments");
+				}
+				else
+				{
+					result = sum / iteration;
+					Console.WriteLine("The Avarge of payments is for " + employees2[i, 1] + " ==> " + result);
+					iteration = 0;
+					sum = 0;
+					result = 0;
+				}
 				spreateLine();
 
 			}
@@ -633,9 +657,10 @@ namespace testCSharp
 						" | " + "Phone : " + employees2[i, 5] +
 					    " | Category : " + employees2[i, 7] 
 						);
+
 				for (int j = 0; j < payments.GetLength(0); j++)
 				{
-
+					   
 					if (payments[j, 0].Equals(employees2[i, 0]))
 					{
 						string rquestStutus = payments[j, 4].Equals("0") ? "Without Request" : "Request is done";
@@ -704,7 +729,7 @@ namespace testCSharp
 				{
 
 					Console.WriteLine(" \n");
-
+					          //true            
 					if (array[i, 1].Equals(id) && array[i, 2].Equals(pass))
 					{
 						if (accountType == 1)
@@ -783,6 +808,8 @@ namespace testCSharp
 		static bool IsFirstIndexIsCharacter(string pass)
 		{
 			 pass.Substring(0, 1);
+			
+			
 			if (pass.Substring(0, 1).Equals("a") || pass.Substring(0, 1).Equals("b") ||
 				pass.Substring(0, 1).Equals("c") || pass.Substring(0, 1).Equals("d") ||
 				pass.Substring(0, 1).Equals("e") || pass.Substring(0, 1).Equals("f") ||
@@ -821,11 +848,11 @@ namespace testCSharp
 		static bool IsValidPassword(string password)
 		{
 			return
-			   password.Any(c => IsLetter(c)) &&
-			   password.Any(c => IsDigit(c)) &&
+			   password.Any(c => IsLetter(c)) && // true
+			   password.Any(c => IsDigit(c)) && // true
 			  // password.Any(c => IsSymbol(c))&&
-			   password.Length >= 8&&
-			   IsFirstIndexIsCharacter(password);
+			   password.Length >= 8 && // true
+			   IsFirstIndexIsCharacter(password); //true
 		}
 
 	}
