@@ -8,7 +8,9 @@ namespace testCSharp
 		public static string[,] payments;
 		public static string[,] employees2;
 		public static string username="";
-		
+		public static int AddEmpIteration = 3;
+
+
 		public static string[,] Re2Dimension(string[,] OldArray, int arr1stDimLength)
 		{
 			// declare a larger array
@@ -236,18 +238,21 @@ namespace testCSharp
 			
 			string pass = "";
 			bool check = true;
+			int empNo = 0;
 			Console.WriteLine("How many employee you want to add ? ");
 			int employee_size = Convert.ToInt32(Console.ReadLine());
 			Console.WriteLine(employees2.GetLength(1));
-			employees2 = Re2Dimension(employees2, 3 + employee_size);
+			employees2 = Re2Dimension(employees2, employees2.GetLength(0) + employee_size);
 
-			for (int i = 3; i < employees2.GetLength(0); i++)
+			for (int i = AddEmpIteration; i < employees2.GetLength(0); i++)
 			{
-				Console.WriteLine("Enter the Employee number : " + (i-2));
+				Console.WriteLine("Enter the Employee number :"+ ++empNo);
 				for (int j = 0; j < employees2.GetLength(1); j++)
 				{
 					if (j == 0) {
-						Console.WriteLine("Enter Employee Id");
+						Console.WriteLine("Employee Id is : "+ (AddEmpIteration + 1));
+						employees2[i, 0] = Convert.ToString((AddEmpIteration+1));
+						continue;
 					} else if (j == 1) {
 						Console.WriteLine("Enter Employee username");
 					}
@@ -320,6 +325,7 @@ namespace testCSharp
 					}
 
 				}
+				AddEmpIteration++;
 			}
 			Console.WriteLine("Employees Added succesfully...");
 
