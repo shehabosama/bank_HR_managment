@@ -102,24 +102,24 @@ namespace testCSharp
 
 		public static void accountDetermination(string[,] array  , int accountType) {
 
-			if (accountType == 1)
-			{
-				employeeLogin(array, inputUsername(), inputPass(), accountType);
+			switch (accountType) {
+				case 1:
+					employeeLogin(array, inputUsername(), inputPass(), accountType);
+					break;
+				case 2:
+					employeeLogin(array, inputUsername(), inputPass(), accountType);
+					break;
+				case 3:
+					Console.WriteLine("Thanks for using our System......");
+					break;
+				default:
+					Console.WriteLine("Invilid number plese try another one....");
+					accountDetermination(array, inputType());
+					break;
 
 			}
-			else if (accountType == 2)
-			{
-				employeeLogin(array, inputUsername(), inputPass(), accountType);
-			}
-			else if (accountType == 3)
-			{
-				Console.WriteLine("Thanks for using our System......");
-			}
-			else {
-				Console.WriteLine("Invilid number plese try another one....");
-				accountDetermination(array , inputType());
-			}
 
+		
 		}
 
 		public static int inputType() {
@@ -141,74 +141,68 @@ namespace testCSharp
 
 		public static void employerAccountOperation(int operationType) {
 
-			if (operationType == 1)
-			{
-				addEmployee();
+			switch (operationType) {
+
+				case 1:
+					addEmployee();
+					break;
+				case 2:
+					AuthenticatePayment();
+					break;
+				case 3:
+					calculateAvarageOfPayments();
+					break;
+				case 4:
+					calculateTotalSalaryOfTheMonth();
+					break;
+				case 5:
+					calculateAnnualBonus();
+					break;
+				case 6:
+					displayEmployeesInfo();
+					break;
+				case 8:
+					homeForm();
+					accountDetermination(employees2, inputType());
+					break;
+				default:
+					Console.WriteLine("Invilid number plese try another one....");
+					employerAccountOperation(inputType());
+					break;
 			}
-			else if (operationType == 2)
-			{
-				AuthenticatePayment();
-			}
-			else if (operationType == 3) {
-				calculateAvarageOfPayments();
-			}
-			else if (operationType == 4)
-			{
-				calculateTotalSalaryOfTheMonth();
-			}
-			else if (operationType == 5)
-			{
-				calculateAnnualBonus();
-			}
-			else if (operationType == 6)
-			{
-				displayEmployeesInfo();
-			}
-			else if (operationType == 8)
-			{
-				homeForm();
-				accountDetermination(employees2, inputType());
-			}
-			else
-			{
-				Console.WriteLine("Invilid number plese try another one....");
-				employerAccountOperation(inputType());
-			}
+			
 		}
 		
 		public static void employeeAccountOperation(int operationType)
 		{
-			if (operationType == 1)
-
+			switch (operationType)
 			{
-				Console.WriteLine("please Enter the payment number");
-				displayAuthenticationStutus(username, Console.ReadLine());
+				case 1:
+					Console.WriteLine("please Enter the payment number");
+					displayAuthenticationStutus(username, Console.ReadLine());
+					break;
+				case 2:
+					displayYourPointsInfo(username);
+					break;
+				case 3:
+					displayCoworkerPointsInfo();
+					break;
+				case 4:
+					calculateTotalSalary();
+					break;
+				case 5:
+					addPayments();
+					break;
+				case 6:
+					homeForm();
+					accountDetermination(employees2, inputType());
+					break;
+				default:
+					Console.WriteLine("Invilid number plese try another one....");
+					employeeAccountOperation(inputType());
+					break;
 			}
-			else if (operationType == 2)
-			{
-				displayYourPointsInfo(username);
-			}
-			else if (operationType == 3)
-			{
-				displayCoworkerPointsInfo();
-			}
-			else if (operationType == 4)
-			{
-				calculateTotalSalary();
-			}
-			else if (operationType == 5)
-			{
-				addPayments();
-			}
-			else if (operationType == 6) {
-				homeForm();
-				accountDetermination(employees2 , inputType());
-			}
-			else
-			{
-				Console.WriteLine("Invilid number plese try another one....");
-				employeeAccountOperation(inputType());
-			}
+			
 		}
 
 		public static void AuthenticatePayment() {
